@@ -6,6 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Iniciar Sesión</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <!-- reCAPTCHA v2 test site key script -->
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
   <script>
     tailwind.config = {
       theme: {
@@ -17,68 +19,80 @@
       }
     }
   </script>
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const form = document.querySelector('form');
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const form = document.querySelector('form');
 
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
 
-      const submitButton = form.querySelector('button[type="submit"]');
-      submitButton.disabled = true;
-      submitButton.innerHTML = 'Iniciando sesión...';
+        // Obtener el token de recaptcha
+        const recaptchaResponse = grecaptcha.getResponse();
 
-      // Remover mensajes anteriores
-      const existingMessages = form.parentNode.querySelectorAll('.alert-message');
-      existingMessages.forEach(msg => msg.remove());
+        if (!recaptchaResponse) {
+          alert('Por favor completa el reCAPTCHA antes de enviar');
+          return;
+        }
 
-      try {
-        const formData = new FormData(form);
-        const response = await fetch('/login', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-          },
-          body: new URLSearchParams(formData)
-        });
+        const submitButton = form.querySelector('button[type="submit"]');
+        submitButton.disabled = true;
+        submitButton.innerHTML = 'Iniciando sesión...';
 
-        const result = await response.json();
+        // Remover mensajes anteriores
+        const existingMessages = form.parentNode.querySelectorAll('.alert-message');
+        existingMessages.forEach(msg => msg.remove());
 
-        if (response.ok) {
-          // Guardar nombre en localStorage para mostrar en index
-          localStorage.setItem('userName', result.name);
+        try {
+          const formData = new FormData(form);
+          // Añadir token recaptcha al formData
+          formData.append('g-recaptcha-response', recaptchaResponse);
 
-          // Cambiar solo el texto del botón (sin mostrar mensajes extra)
-          submitButton.innerHTML = 'Iniciando sesión...';
+          const response = await fetch('/login', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: new URLSearchParams(formData)
+          });
 
-          // Redirigir después de 2 segundos
-          setTimeout(() => {
-            window.location.href = result.redirect || '/index.html';
-          }, 2000);
+          const result = await response.json();
 
-        } else {
-          // Mostrar mensaje de error en un div estilizado
-          const errorDiv = document.createElement('div');
-          errorDiv.className = 'alert-message bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4';
-          errorDiv.textContent = result.error || 'Error al iniciar sesión';
-          form.parentNode.insertBefore(errorDiv, form);
+          if (response.ok) {
+            // Guardar nombre en localStorage para mostrar en index
+            localStorage.setItem('userName', result.name);
+
+            // Cambiar solo el texto del botón (sin mostrar mensajes extra)
+            submitButton.innerHTML = 'Iniciando sesión...';
+
+            // Redirigir después de 2 segundos
+            setTimeout(() => {
+              window.location.href = result.redirect || '/index.html';
+            }, 2000);
+
+          } else {
+            // Mostrar mensaje de error en un div estilizado
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'alert-message bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4';
+            errorDiv.textContent = result.error || 'Error al iniciar sesión';
+            form.parentNode.insertBefore(errorDiv, form);
+
+            submitButton.disabled = false;
+            submitButton.innerHTML = 'Iniciar sesión';
+            // Resetear recaptcha para que intente de nuevo
+            grecaptcha.reset();
+          }
+
+        } catch (error) {
+          console.error('Error:', error);
+          alert('Ocurrió un error al iniciar sesión');
 
           submitButton.disabled = false;
           submitButton.innerHTML = 'Iniciar sesión';
+          grecaptcha.reset();
         }
-
-      } catch (error) {
-        console.error('Error:', error);
-        alert('Ocurrió un error al iniciar sesión');
-
-        submitButton.disabled = false;
-        submitButton.innerHTML = 'Iniciar sesión';
-      }
+      });
     });
-  });
-</script>
-
-  
+  </script>
 </head>
 <body class="h-full">
   <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
@@ -99,6 +113,10 @@
           <input id="password" name="password" type="password" required autocomplete="current-password"
             class="mt-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-gray-300 focus:ring-2 focus:ring-primary sm:text-sm" />
         </div>
+
+        <!-- reCAPTCHA widget -->
+        <div class="g-recaptcha" data-sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"></div>
+
         <div>
           <button type="submit"
             class="w-full rounded-md bg-primary px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary/90">Iniciar
@@ -107,7 +125,9 @@
       </form>
       <p class="mt-10 text-center text-sm text-gray-500">
         ¿No tienes cuenta?
-        <a href="register.html" class="font-semibold text-primary hover:text-primary/80">Regístrate aquí</a>
+        <a href="register.html" class="font-semibold text-primary hover:text-primary/80">Regístrate aquí</a><br><br>
+        No recuerdo mi contraseña
+        <a href="forgot-password.html" class="font-semibold text-primary hover:text-primary/80">Restablecer contraseña</a>
       </p>
     </div>
   </div>

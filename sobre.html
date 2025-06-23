@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title>About - College Bootstrap Template</title>
+  <title>Sobre Nosotros</title>
   <meta name="description" content="">
   <meta name="keywords" content="">
 
@@ -48,25 +48,25 @@
       <nav id="navmenu" class="navmenu">
         <ul>
           <li><a href="index.html" class="active">Inicio</a></li>
-          <li class="dropdown"><a href="about.html"><span>Sobre</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+          <li class="dropdown"><a href="sobre.html"><span>Sobre</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
             <ul>
-              <li><a href="about.html">Sobre Nosotros</a></li>
-              <li><a href="campus-facilities.html">Instalaciones &amp; Áreas</a></li>
+              <li><a href="sobre.html">Sobre Nosotros</a></li>
+              <li><a href="instalaciones.html">Instalaciones &amp; Áreas</a></li>
             </ul>
           </li>
-          <li><a href="privacy.html">Privacidad</a></li>
+          <li><a href="privacidad.html">Privacidad</a></li>
           <li class="dropdown"><a href="#"><span>Más Páginas</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
             <ul>
-              <li><a href="news-details.html">Detalles</a></li>
+              <li><a href="detalles.html">Detalles</a></li>
             </ul>
           </li>
-          <li><a href="contact.html">Contáctanos</a></li>
+          <li><a href="contacto.html">Contáctanos</a></li>
         </ul>
         <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
       </nav>
   
       <!-- Usuario con dropdown -->
-      <div class="dropdown ms-3 position-relative">
+      <div class="dropdown ms-3">
         <button id="userDropdownBtn" class="btn btn-outline-primary d-flex align-items-center" type="button" aria-expanded="false">
           <i class="bi bi-person-circle fs-4 me-2"></i>
           <span id="userNameDisplay"></span>
@@ -81,40 +81,48 @@
   
     <script>
       document.addEventListener('DOMContentLoaded', () => {
+        // Validar sesión
         const name = localStorage.getItem('userName');
-  
         if (!name) {
-          // No hay sesión, redirigir a login
           window.location.href = 'login.html';
           return;
         }
   
+        // Mostrar nombre de usuario
         document.getElementById('userNameDisplay').textContent = name;
   
         const dropdownBtn = document.getElementById('userDropdownBtn');
         const dropdownMenu = document.getElementById('userDropdownMenu');
   
-        // Toggle dropdown visibility
+        // Toggle dropdown
         dropdownBtn.addEventListener('click', () => {
           dropdownMenu.style.display = (dropdownMenu.style.display === 'block') ? 'none' : 'block';
         });
   
-        // Cerrar sesión
+        // Logout
         document.getElementById('logoutBtn').addEventListener('click', (e) => {
           e.preventDefault();
           localStorage.removeItem('userName');
+          // Redirigir con replace para no dejar historial
           window.location.replace('login.html');
         });
   
-        // Cerrar dropdown si se clickea fuera
+        // Cerrar dropdown si se hace clic afuera
         document.addEventListener('click', (e) => {
           if (!dropdownBtn.contains(e.target) && !dropdownMenu.contains(e.target)) {
             dropdownMenu.style.display = 'none';
           }
         });
+  
+        // Bloquear botón atrás para que no regrese a la página protegida
+        window.history.pushState(null, null, window.location.href);
+        window.onpopstate = function () {
+          window.history.go(1);
+        };
       });
     </script>
   </header>
+  
   
 
   <main class="main">
@@ -122,11 +130,11 @@
     <!-- Page Title -->
     <div class="page-title light-background">
       <div class="container d-lg-flex justify-content-between align-items-center">
-        <h1 class="mb-2 mb-lg-0">About</h1>
+        <h1 class="mb-2 mb-lg-0">Sobre Nosotros</h1>
         <nav class="breadcrumbs">
           <ol>
-            <li><a href="index.html">Home</a></li>
-            <li class="current">About</li>
+            <li><a href="index.html">Inicio</a></li>
+            <li class="current">Sobre Nosotros</li>
           </ol>
         </nav>
       </div>

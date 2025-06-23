@@ -40,65 +40,89 @@
 
   <header id="header" class="header d-flex align-items-center sticky-top">
     <div class="header-container container-fluid container-xl position-relative d-flex align-items-center justify-content-end">
-
+  
       <a href="index.html" class="logo d-flex align-items-center me-auto">
-        <!-- Uncomment the line below if you also wish to use an image logo -->
-        <!-- <img src="assets/img/logo.webp" alt=""> -->
-        <h1 class="sitename">College</h1>
+        <h1 class="sitename">Universidad Tecnológica de México</h1>
       </a>
-
+  
       <nav id="navmenu" class="navmenu">
         <ul>
-          <li><a href="index.html">Home</a></li>
-          <li class="dropdown"><a href="about.html"><span>About</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+          <li><a href="index.html" class="active">Inicio</a></li>
+          <li class="dropdown"><a href="sobre.html"><span>Sobre</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
             <ul>
-              <li><a href="about.html">About Us</a></li>
-              <li><a href="admissions.html">Admissions</a></li>
-              <li><a href="academics.html">Academics</a></li>
-              <li><a href="faculty-staff.html">Faculty &amp; Staff</a></li>
-              <li><a href="campus-facilities.html" class="active">Campus &amp; Facilities</a></li>
+              <li><a href="sobre.html">Sobre Nosotros</a></li>
+              <li><a href="instalaciones.html">Instalaciones &amp; Áreas</a></li>
             </ul>
           </li>
-
-          <li><a href="students-life.html">Students Life</a></li>
-          <li><a href="news.html">News</a></li>
-          <li><a href="events.html">Events</a></li>
-          <li><a href="alumni.html">Alumni</a></li>
-          <li class="dropdown"><a href="#"><span>More Pages</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+          <li><a href="privacidad.html">Privacidad</a></li>
+          <li class="dropdown"><a href="#"><span>Más Páginas</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
             <ul>
-              <li><a href="news-details.html">News Details</a></li>
-              <li><a href="event-details.html">Event Details</a></li>
-              <li><a href="privacy.html">Privacy</a></li>
-              <li><a href="terms-of-service.html">Terms of Service</a></li>
-              <li><a href="404.html">Error 404</a></li>
-              <li><a href="starter-page.html">Starter Page</a></li>
+              <li><a href="detalles.html">Detalles</a></li>
             </ul>
           </li>
-
-          <li class="dropdown"><a href="#"><span>Dropdown</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
-            <ul>
-              <li><a href="#">Dropdown 1</a></li>
-              <li class="dropdown"><a href="#"><span>Deep Dropdown</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
-                <ul>
-                  <li><a href="#">Deep Dropdown 1</a></li>
-                  <li><a href="#">Deep Dropdown 2</a></li>
-                  <li><a href="#">Deep Dropdown 3</a></li>
-                  <li><a href="#">Deep Dropdown 4</a></li>
-                  <li><a href="#">Deep Dropdown 5</a></li>
-                </ul>
-              </li>
-              <li><a href="#">Dropdown 2</a></li>
-              <li><a href="#">Dropdown 3</a></li>
-              <li><a href="#">Dropdown 4</a></li>
-            </ul>
-          </li>
-          <li><a href="contact.html">Contact</a></li>
+          <li><a href="contacto.html">Contáctanos</a></li>
         </ul>
         <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
       </nav>
-
+  
+      <!-- Usuario con dropdown -->
+      <div class="dropdown ms-3">
+        <button id="userDropdownBtn" class="btn btn-outline-primary d-flex align-items-center" type="button" aria-expanded="false">
+          <i class="bi bi-person-circle fs-4 me-2"></i>
+          <span id="userNameDisplay"></span>
+          <i class="bi bi-chevron-down ms-1"></i>
+        </button>
+        <ul id="userDropdownMenu" class="dropdown-menu dropdown-menu-end" style="display:none;" aria-labelledby="userDropdownBtn">
+          <li><a class="dropdown-item" href="#" id="logoutBtn">Cerrar sesión</a></li>
+        </ul>
+      </div>
+  
     </div>
+  
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        // Validar sesión
+        const name = localStorage.getItem('userName');
+        if (!name) {
+          window.location.href = 'login.html';
+          return;
+        }
+  
+        // Mostrar nombre de usuario
+        document.getElementById('userNameDisplay').textContent = name;
+  
+        const dropdownBtn = document.getElementById('userDropdownBtn');
+        const dropdownMenu = document.getElementById('userDropdownMenu');
+  
+        // Toggle dropdown
+        dropdownBtn.addEventListener('click', () => {
+          dropdownMenu.style.display = (dropdownMenu.style.display === 'block') ? 'none' : 'block';
+        });
+  
+        // Logout
+        document.getElementById('logoutBtn').addEventListener('click', (e) => {
+          e.preventDefault();
+          localStorage.removeItem('userName');
+          // Redirigir con replace para no dejar historial
+          window.location.replace('login.html');
+        });
+  
+        // Cerrar dropdown si se hace clic afuera
+        document.addEventListener('click', (e) => {
+          if (!dropdownBtn.contains(e.target) && !dropdownMenu.contains(e.target)) {
+            dropdownMenu.style.display = 'none';
+          }
+        });
+  
+        // Bloquear botón atrás para que no regrese a la página protegida
+        window.history.pushState(null, null, window.location.href);
+        window.onpopstate = function () {
+          window.history.go(1);
+        };
+      });
+    </script>
   </header>
+  
 
   <main class="main">
 
@@ -543,82 +567,74 @@
 
     <div class="container footer-top">
       <div class="row gy-4">
+  
         <div class="col-lg-4 col-md-6 footer-about">
           <a href="index.html" class="logo d-flex align-items-center">
-            <span class="sitename">College</span>
+            <span class="sitename">UTM</span>
           </a>
           <div class="footer-contact pt-3">
-            <p>A108 Adam Street</p>
-            <p>New York, NY 535022</p>
-            <p class="mt-3"><strong>Phone:</strong> <span>+1 5589 55488 55</span></p>
-            <p><strong>Email:</strong> <span>info@example.com</span></p>
+            <p>Av. Universidad Tecnológica 123</p>
+            <p>Col. Industrial, Saltillo, Coahuila, México</p>
+            <p class="mt-3"><strong>Teléfono:</strong> <span>+52 844 123 4567</span></p>
+            <p><strong>Email:</strong> <span>contacto@utm.mx</span></p>
           </div>
           <div class="social-links d-flex mt-4">
-            <a href=""><i class="bi bi-twitter-x"></i></a>
-            <a href=""><i class="bi bi-facebook"></i></a>
-            <a href=""><i class="bi bi-instagram"></i></a>
-            <a href=""><i class="bi bi-linkedin"></i></a>
+            <a href="https://twitter.com/utm_oficial" target="_blank" rel="noopener"><i class="bi bi-twitter"></i></a>
+            <a href="https://www.facebook.com/utmoficial" target="_blank" rel="noopener"><i class="bi bi-facebook"></i></a>
+            <a href="https://www.instagram.com/utm_oficial" target="_blank" rel="noopener"><i class="bi bi-instagram"></i></a>
+            <a href="https://www.linkedin.com/school/utm-oficial" target="_blank" rel="noopener"><i class="bi bi-linkedin"></i></a>
           </div>
         </div>
-
+  
         <div class="col-lg-2 col-md-3 footer-links">
-          <h4>Useful Links</h4>
+          <h4>Enlaces Útiles</h4>
           <ul>
-            <li><a href="#">Home</a></li>
-            <li><a href="#">About us</a></li>
-            <li><a href="#">Services</a></li>
-            <li><a href="#">Terms of service</a></li>
-            <li><a href="#">Privacy policy</a></li>
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="about.html">Nosotros</a></li>
+            <li><a href="programs.html">Programas</a></li>
+            <li><a href="admissions.html">Admisiones</a></li>
+            <li><a href="contact.html">Contacto</a></li>
           </ul>
         </div>
-
+  
         <div class="col-lg-2 col-md-3 footer-links">
-          <h4>Our Services</h4>
+          <h4>Servicios</h4>
           <ul>
-            <li><a href="#">Web Design</a></li>
-            <li><a href="#">Web Development</a></li>
-            <li><a href="#">Product Management</a></li>
-            <li><a href="#">Marketing</a></li>
-            <li><a href="#">Graphic Design</a></li>
+            <li><a href="library.html">Biblioteca</a></li>
+            <li><a href="student-support.html">Apoyo Estudiantil</a></li>
+            <li><a href="career-center.html">Bolsa de Trabajo</a></li>
+            <li><a href="events.html">Eventos</a></li>
+            <li><a href="research.html">Investigación</a></li>
           </ul>
         </div>
-
+  
         <div class="col-lg-2 col-md-3 footer-links">
-          <h4>Hic solutasetp</h4>
+          <h4>Políticas</h4>
           <ul>
-            <li><a href="#">Molestiae accusamus iure</a></li>
-            <li><a href="#">Excepturi dignissimos</a></li>
-            <li><a href="#">Suscipit distinctio</a></li>
-            <li><a href="#">Dilecta</a></li>
-            <li><a href="#">Sit quas consectetur</a></li>
+            <li><a href="terms.html">Términos de Uso</a></li>
+            <li><a href="privacy.html">Política de Privacidad</a></li>
+            <li><a href="code-of-conduct.html">Código de Conducta</a></li>
+            <li><a href="accessibility.html">Accesibilidad</a></li>
+            <li><a href="faq.html">Preguntas Frecuentes</a></li>
           </ul>
         </div>
-
+  
         <div class="col-lg-2 col-md-3 footer-links">
-          <h4>Nobis illum</h4>
+          <h4>Contacto Rápido</h4>
           <ul>
-            <li><a href="#">Ipsam</a></li>
-            <li><a href="#">Laudantium dolorum</a></li>
-            <li><a href="#">Dinera</a></li>
-            <li><a href="#">Trodelas</a></li>
-            <li><a href="#">Flexo</a></li>
+            <li><a href="mailto:info@utm.mx">info@utm.mx</a></li>
+            <li><a href="tel:+528441234567">+52 844 123 4567</a></li>
+            <li><a href="support.html">Soporte Técnico</a></li>
+            <li><a href="careers.html">Empleos</a></li>
+            <li><a href="newsletter.html">Boletín</a></li>
           </ul>
         </div>
-
+  
       </div>
     </div>
-
-    <div class="container copyright text-center mt-4">
-      <p>© <span>Copyright</span> <strong class="px-1 sitename">MyWebsite</strong> <span>All Rights Reserved</span></p>
-      <div class="credits">
-        <!-- All the links in the footer should remain intact. -->
-        <!-- You can delete the links only if you've purchased the pro version. -->
-        <!-- Licensing information: https://bootstrapmade.com/license/ -->
-        <!-- Purchase the pro version with working PHP/AJAX contact form: [buy-url] -->
-        Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
-      </div>
-    </div>
-
+  
+    <br><br>
+  
   </footer>
 
   <!-- Scroll Top -->
