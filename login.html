@@ -1,0 +1,115 @@
+<!-- public/login.html -->
+<!DOCTYPE html>
+<html lang="es" class="h-full bg-white">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Iniciar Sesión</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#06415D',
+          }
+        }
+      }
+    }
+  </script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const form = document.querySelector('form');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const submitButton = form.querySelector('button[type="submit"]');
+      submitButton.disabled = true;
+      submitButton.innerHTML = 'Iniciando sesión...';
+
+      // Remover mensajes anteriores
+      const existingMessages = form.parentNode.querySelectorAll('.alert-message');
+      existingMessages.forEach(msg => msg.remove());
+
+      try {
+        const formData = new FormData(form);
+        const response = await fetch('/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          body: new URLSearchParams(formData)
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+          // Guardar nombre en localStorage para mostrar en index
+          localStorage.setItem('userName', result.name);
+
+          // Cambiar solo el texto del botón (sin mostrar mensajes extra)
+          submitButton.innerHTML = 'Iniciando sesión...';
+
+          // Redirigir después de 2 segundos
+          setTimeout(() => {
+            window.location.href = result.redirect || '/index.html';
+          }, 2000);
+
+        } else {
+          // Mostrar mensaje de error en un div estilizado
+          const errorDiv = document.createElement('div');
+          errorDiv.className = 'alert-message bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4';
+          errorDiv.textContent = result.error || 'Error al iniciar sesión';
+          form.parentNode.insertBefore(errorDiv, form);
+
+          submitButton.disabled = false;
+          submitButton.innerHTML = 'Iniciar sesión';
+        }
+
+      } catch (error) {
+        console.error('Error:', error);
+        alert('Ocurrió un error al iniciar sesión');
+
+        submitButton.disabled = false;
+        submitButton.innerHTML = 'Iniciar sesión';
+      }
+    });
+  });
+</script>
+
+  
+</head>
+<body class="h-full">
+  <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
+    <div class="sm:mx-auto sm:w-full sm:max-w-sm">
+      <img class="mx-auto h-16 w-auto" src="assets/img/loggito.jpg" alt="Tu Empresa" />
+      <h2 class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Inicia sesión</h2>
+    </div>
+
+    <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+      <form id="loginForm" class="space-y-6">
+        <div>
+          <label for="email" class="block text-sm font-medium text-gray-900">Correo electrónico</label>
+          <input id="email" name="email" type="email" required autocomplete="email"
+            class="mt-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-gray-300 focus:ring-2 focus:ring-primary sm:text-sm" />
+        </div>
+        <div>
+          <label for="password" class="block text-sm font-medium text-gray-900">Contraseña</label>
+          <input id="password" name="password" type="password" required autocomplete="current-password"
+            class="mt-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-gray-300 focus:ring-2 focus:ring-primary sm:text-sm" />
+        </div>
+        <div>
+          <button type="submit"
+            class="w-full rounded-md bg-primary px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary/90">Iniciar
+            sesión</button>
+        </div>
+      </form>
+      <p class="mt-10 text-center text-sm text-gray-500">
+        ¿No tienes cuenta?
+        <a href="register.html" class="font-semibold text-primary hover:text-primary/80">Regístrate aquí</a>
+      </p>
+    </div>
+  </div>
+</body>
+</html>
