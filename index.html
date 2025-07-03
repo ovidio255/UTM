@@ -26,15 +26,40 @@
   <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
   <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
   <link href="assets/css/main.css" rel="stylesheet">
+
+  <script>
+    window.addEventListener('mouseover', initLandbot, { once: true });
+    window.addEventListener('touchstart', initLandbot, { once: true });
+    var myLandbot;
+    function initLandbot() {
+      if (!myLandbot) {
+        var s = document.createElement('script');
+        s.type = "module"
+        s.async = true;
+        s.addEventListener('load', function() {
+          var myLandbot = new Landbot.Livechat({
+            configUrl: 'https://storage.googleapis.com/landbot.site/v3/H-2515446-V4LVMAB38YA54Y3V/index.json',
+          });
+        });
+        s.src = 'https://cdn.landbot.io/landbot-3/landbot-3.0.0.mjs';
+        var x = document.getElementsByTagName('script')[0];
+        x.parentNode.insertBefore(s, x);
+      }
+    }
+    </script>
+
+
 </head>
 
 <body class="index-page">
+
+
 
   <header id="header" class="header d-flex align-items-center sticky-top">
     <div class="header-container container-fluid container-xl position-relative d-flex align-items-center justify-content-end">
   
       <a href="index.html" class="logo d-flex align-items-center me-auto">
-        <h1 class="sitename">Universidad Tecnológica de México</h1>
+        <h1 class="sitename">Universidad Tecnólogica de México</h1>
       </a>
   
       <nav id="navmenu" class="navmenu">
@@ -125,7 +150,7 @@
         <div class="container">
           <div class="row align-items-center">
             <div class="col-lg-6 hero-content" data-aos="fade-right" data-aos-delay="100">
-              <h1>Inspirando la excelencia a través de la educación</h1>
+              <h1>La mejor opción de Universidad en todo el país</h1>
               <p>Bienvenido a la Universidad Tecnológica de México (UTM), una institución con más de 25 años formando profesionistas líderes en tecnología, innovación y emprendimiento.</p>
               <div class="stats-row">
                 <div class="stat-item">
@@ -169,7 +194,7 @@
                 </div>
                 <div class="feature-content">
                   <h3>Apoyo a las Ideas</h3>
-                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas eget lacus id tortor facilisis.</p>
+                  <p>Contamos con apoyos económicos para solventar proyectos innovadores de grades personas con muchas ideas y metas en la vida.</p>
                 </div>
               </div>
             </div>
@@ -181,7 +206,7 @@
                 </div>
                 <div class="feature-content">
                   <h3>Instalaciones modernas</h3>
-                  <p>Donec gravida risus at sollicitudin luctus. Nullam feugiat odio vitae justo pharetra.</p>
+                  <p>Contamos con las mejores instalaciónes de todo México, contamos con zonas recreativas que mejoran la experiencia y el bienestar de nuestros alumnos.</p>
                 </div>
               </div>
             </div>
@@ -193,7 +218,7 @@
                 </div>
                 <div class="feature-content">
                   <h3>Excelentes Docentes</h3>
-                  <p>Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae.</p>
+                  <p>Contamos con un plantel robusto de los mejores maestros especializados para todas las carreras.</p>
                 </div>
               </div>
             </div>
@@ -928,6 +953,7 @@
           </ul>
         </div>
   
+      
         <div class="col-lg-2 col-md-3 footer-links">
           <h4>Contacto Rápido</h4>
           <ul>
@@ -964,6 +990,7 @@
 
   <!-- Main JS File -->
   <script src="assets/js/main.js"></script>
+
 
 </body>
 
