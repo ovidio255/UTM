@@ -1,74 +1,53 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
-  <meta charset="utf-8">
-  <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title>Universidad Tecnologica de México</title>
-  <meta name="description" content="">
-  <meta name="keywords" content="">
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>Universidad Tecnológica de México</title>
+
   <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0" />
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
 
+  <link href="assets/img/favicon.png" rel="icon" />
+  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon" />
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet" />
+  <link href="assets/vendor/aos/aos.css" rel="stylesheet" />
+  <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet" />
+  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet" />
+  <link href="assets/css/main.css" rel="stylesheet" />
 
-  <!-- Favicons -->
-  <link href="assets/img/favicon.png" rel="icon">
-  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
-
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com" rel="preconnect">
-  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
-  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
-  <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
-  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
-  <link href="assets/css/main.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com" rel="preconnect" />
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
 
   <script>
-    window.addEventListener('mouseover', initLandbot, { once: true });
-    window.addEventListener('touchstart', initLandbot, { once: true });
-    var myLandbot;
-    function initLandbot() {
-      if (!myLandbot) {
-        var s = document.createElement('script');
-        s.type = "module"
-        s.async = true;
-        s.addEventListener('load', function() {
-          var myLandbot = new Landbot.Livechat({
-            configUrl: 'https://storage.googleapis.com/landbot.site/v3/H-2515446-V4LVMAB38YA54Y3V/index.json',
-          });
-        });
-        s.src = 'https://cdn.landbot.io/landbot-3/landbot-3.0.0.mjs';
-        var x = document.getElementsByTagName('script')[0];
-        x.parentNode.insertBefore(s, x);
+    document.addEventListener('DOMContentLoaded', () => {
+      const name = localStorage.getItem('userName');
+      if (!name) {
+        window.location.href = 'login.html';
+        return;
       }
-    }
-    </script>
-
-
+    });
+  </script>
 </head>
 
 <body class="index-page">
-
-
-
   <header id="header" class="header d-flex align-items-center sticky-top">
     <div class="header-container container-fluid container-xl position-relative d-flex align-items-center justify-content-end">
-  
       <a href="index.html" class="logo d-flex align-items-center me-auto">
-        <h1 class="sitename">Universidad Tecnólogica de México</h1>
+        <h1 class="sitename">Universidad Tecnológica de México</h1>
       </a>
-  
+
       <nav id="navmenu" class="navmenu">
         <ul>
           <li><a href="index.html" class="active">Inicio</a></li>
-          <li class="dropdown"><a href="sobre.html"><span>Sobre</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+          <li class="dropdown"><a href="#"><span>Sobre</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
             <ul>
               <li><a href="sobre.html">Sobre Nosotros</a></li>
-              <li><a href="instalaciones.html">Instalaciones &amp; Áreas</a></li>
+              <li><a href="instalaciones.html">Instalaciones & Áreas</a></li>
             </ul>
           </li>
           <li><a href="privacidad.html">Privacidad</a></li>
@@ -81,67 +60,60 @@
         </ul>
         <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
       </nav>
-  
-      <!-- Usuario con dropdown -->
+
       <div class="dropdown ms-3">
-        <button id="userDropdownBtn" class="btn btn-outline-primary d-flex align-items-center" type="button" aria-expanded="false">
+        <button id="userDropdownBtn" class="btn btn-outline-primary d-flex align-items-center" type="button">
           <i class="bi bi-person-circle fs-4 me-2"></i>
-          <span id="userNameDisplay"></span>
+          <span id="userNameDisplay">Usuario</span>
           <i class="bi bi-chevron-down ms-1"></i>
         </button>
-        <ul id="userDropdownMenu" class="dropdown-menu dropdown-menu-end" style="display:none;" aria-labelledby="userDropdownBtn">
+        <ul id="userDropdownMenu" class="dropdown-menu dropdown-menu-end" style="display: none;">
           <li><a class="dropdown-item" href="#" id="logoutBtn">Cerrar sesión</a></li>
         </ul>
       </div>
-  
     </div>
-  
+
     <script>
       document.addEventListener('DOMContentLoaded', () => {
-        // Validar sesión
         const name = localStorage.getItem('userName');
-        if (!name) {
-          window.location.href = 'login.html';
-          return;
-        }
-  
-        // Mostrar nombre de usuario
-        document.getElementById('userNameDisplay').textContent = name;
-  
+        const userNameDisplay = document.getElementById('userNameDisplay');
         const dropdownBtn = document.getElementById('userDropdownBtn');
         const dropdownMenu = document.getElementById('userDropdownMenu');
-  
-        // Toggle dropdown
+        const logoutBtn = document.getElementById('logoutBtn');
+
+        if (name) {
+          userNameDisplay.textContent = name;
+        }
+
         dropdownBtn.addEventListener('click', () => {
-          dropdownMenu.style.display = (dropdownMenu.style.display === 'block') ? 'none' : 'block';
+          dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block';
         });
-  
-        // Logout
-        document.getElementById('logoutBtn').addEventListener('click', (e) => {
+
+        logoutBtn.addEventListener('click', (e) => {
           e.preventDefault();
           localStorage.removeItem('userName');
-          // Redirigir con replace para no dejar historial
           window.location.replace('login.html');
         });
-  
-        // Cerrar dropdown si se hace clic afuera
+
         document.addEventListener('click', (e) => {
           if (!dropdownBtn.contains(e.target) && !dropdownMenu.contains(e.target)) {
             dropdownMenu.style.display = 'none';
           }
         });
-  
-        // Bloquear botón atrás para que no regrese a la página protegida
+
         window.history.pushState(null, null, window.location.href);
-        window.onpopstate = function () {
-          window.history.go(1);
-        };
+        window.onpopstate = () => window.history.go(1);
       });
     </script>
   </header>
-  
-  
+
   <main class="main">
+    <!-- Aquí va el contenido principal -->
+  </main>
+</body>
+
+</html>
+
 
     <!-- Hero Section -->
     <section id="hero" class="hero section">
